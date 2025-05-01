@@ -1,8 +1,9 @@
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
 
--- GUI
+-- GUI principal
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "ESPGui"
 screenGui.ResetOnSpawn = false
@@ -23,7 +24,7 @@ local uiCorner = Instance.new("UICorner")
 uiCorner.CornerRadius = UDim.new(0, 12)
 uiCorner.Parent = frame
 
--- Toggle ESP Button
+-- Botão de ativar ESP
 local toggleButton = Instance.new("TextButton")
 toggleButton.Size = UDim2.new(0, 200, 0, 50)
 toggleButton.Position = UDim2.new(0.5, -100, 0.5, -25)
@@ -38,28 +39,28 @@ local toggleCorner = Instance.new("UICorner")
 toggleCorner.CornerRadius = UDim.new(0, 10)
 toggleCorner.Parent = toggleButton
 
--- Botão para fechar (dentro do Frame)
+-- Botão de fechar
 local closeButton = Instance.new("ImageButton")
 closeButton.Size = UDim2.new(0, 24, 0, 24)
 closeButton.Position = UDim2.new(1, -30, 0, 6)
-closeButton.Image = "rbxassetid://6031094678" -- ícone de X
+closeButton.Image = "rbxassetid://6031094678"
 closeButton.BackgroundTransparency = 1
 closeButton.Parent = frame
 
--- Botão para reabrir (fica na tela quando o menu estiver fechado)
+-- Botão para reabrir
 local reopenButton = Instance.new("ImageButton")
 reopenButton.Size = UDim2.new(0, 40, 0, 40)
 reopenButton.Position = UDim2.new(0, 10, 0, 10)
-reopenButton.Image = "rbxassetid://6031091002" -- ícone de menu
+reopenButton.Image = "rbxassetid://6031091002"
 reopenButton.BackgroundTransparency = 1
 reopenButton.Visible = false
 reopenButton.Parent = screenGui
 
--- Variáveis de controle
+-- Estado
 local espAtivado = false
 local espConnections = {}
 
--- ESP Functions
+-- Função para ativar ESP
 local function ativarESP()
 	for _, player in pairs(Players:GetPlayers()) do
 		if player ~= LocalPlayer then
@@ -126,6 +127,7 @@ local function ativarESP()
 	end
 end
 
+-- Função para desativar ESP
 local function desativarESP()
 	for _, player in pairs(Players:GetPlayers()) do
 		local char = player.Character
@@ -144,28 +146,59 @@ local function desativarESP()
 	espConnections = {}
 end
 
--- Toggle ESP
+-- Botão de ativar/desativar ESP com animação
 toggleButton.MouseButton1Click:Connect(function()
-	if not espAtivado then
-		espAtivado = true
+	local isAtivando = not espAtivado
+	espAtivado = isAtivando
+
+	local goalColor = isAtivando and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(0, 170, 255)
+	local goalText = isAtivando and "Desativar ESP" or "Ativar ESP"
+
+	local colorTween = TweenService:Create(toggleButton, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		BackgroundColor3 = goalColor,
+		Size = UDim2.new(0, 210, 0, 55)
+	})
+	colorTween:Play()
+
+	colorTween.Completed:Connect(function()
+		local shrinkTween = TweenService:Create(toggleButton, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+			Size = UDim2.new(0, 200, 0, 50)
+		})
+		shrinkTween:Play()
+	end)
+
+	toggleButton.Text = goalText
+
+	if isAtivando then
 		ativarESP()
-		toggleButton.Text = "Desativar ESP"
-		toggleButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
 	else
-		espAtivado = false
 		desativarESP()
-		toggleButton.Text = "Ativar ESP"
-		toggleButton.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
 	end
 end)
 
--- Fechar e abrir o menu
+-- Fechar com animação
 closeButton.MouseButton1Click:Connect(function()
-	frame.Visible = false
-	reopenButton.Visible = true
+	local tween = TweenService:Create(frame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+		Size = UDim2.new(0, 200, 0, 120),
+		BackgroundTransparency = 1
+	})
+	tween:Play()
+	tween.Completed:Connect(function()
+		frame.Visible = false
+		reopenButton.Visible = true
+	end)
 end)
 
+-- Reabrir com animação
 reopenButton.MouseButton1Click:Connect(function()
 	frame.Visible = true
 	reopenButton.Visible = false
+	frame.BackgroundTransparency = 1
+	frame.Size = UDim2.new(0, 200, 0, 120)
+
+	local tween = TweenService:Create(frame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		Size = UDim2.new(0, 250, 0, 150),
+		BackgroundTransparency = 0.1
+	})
+	tween:Play()
 end)
