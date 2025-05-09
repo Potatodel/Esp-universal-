@@ -5,13 +5,12 @@ local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbao1
 local Window = redzlib:MakeWindow({
     Title = "Zeta hub : universal",
     SubTitle = "by S I L E N T",
-    SaveFolder = "testando | redz lib v5.lua"
-})
+    SaveFolder = "testando | redz lib v5.lua"})
 
 -- Ícone de minimizar
 Window:AddMinimizeButton({
-    Button = { Image = "rbxassetid://18751483361", BackgroundTransparency = 0 },
-    Corner = { CornerRadius = UDim.new(35, 1) },
+    Button = { Image = "rbxassetid://119216271153645", BackgroundTransparency = 0 },
+    Corner = { CornerRadius = UDim.new(0, 6) },
 })
 
 -- Aba de Funções
@@ -264,6 +263,6 @@ local Tab1 = Window:MakeTab({
 Tab1:AddDiscordInvite({
     Name = "Zeta hub",
     Description = "em breve",
-    Logo = "rbxassetid://18751483361",
+    Logo = "rbxassetid://119216271153645",
     Invite = "em breve"
 })
