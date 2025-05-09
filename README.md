@@ -17,7 +17,7 @@ Window:AddMinimizeButton({
 -- Aba Discord (primeira aba)
 local Tab1 = Window:MakeTab({
     Title = "Discord",
-    Icon = "rbxassetid://4483345998"
+    Icon = "rbxassetid://84198990394879"
 })
 
 Tab1:AddDiscordInvite({
@@ -29,8 +29,8 @@ Tab1:AddDiscordInvite({
 
 -- Aba de Funções (segunda aba)
 local Funcoes = Window:MakeTab({
-    Title = "Funções",
-    Icon = "rbxassetid://4483345998"
+    Title = "Main",
+    Icon = "rbxassetid://106319096400681"
 })
 
 -- Controle de Velocidade
@@ -172,7 +172,7 @@ Funcoes:AddButton({
             TextLabels = {LowerQuality = true, Invisible = false, Destroy = false},
             MeshParts = {LowerQuality = true, Invisible = false, NoTexture = false, NoMesh = false, Destroy = false},
             Other = {
-                ["FPS Cap"] = 360,
+                ["FPS Cap"] = 8000,
                 ["No Camera Effects"] = true,
                 ["No Clothes"] = true,
                 ["Low Water Graphics"] = true,
