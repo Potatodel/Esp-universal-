@@ -8,7 +8,7 @@ local Window = redzlib:MakeWindow({
     SaveFolder = "testando | redz lib v5.lua"
 })
 
--- Ícone de minimizar com imagem ajustada
+-- Ícone de minimizar
 Window:AddMinimizeButton({
     Button = { Image = "rbxassetid://18751483361", BackgroundTransparency = 0 },
     Corner = { CornerRadius = UDim.new(35, 1) },
@@ -20,7 +20,7 @@ local Funcoes = Window:MakeTab({
     Icon = "rbxassetid://4483345998"
 })
 
--- Velocidade (Slider)
+-- Controle de Velocidade
 local jogador = game.Players.LocalPlayer
 local humanoide = jogador.Character and jogador.Character:FindFirstChildOfClass("Humanoid")
 jogador.CharacterAdded:Connect(function(char)
@@ -199,7 +199,63 @@ Funcoes:AddToggle({
     end
 })
 
--- Aba de Discord
+-- Fly
+Funcoes:AddButton({
+    Title = "Fly",
+    Callback = function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/YSL3xKYU"))()
+    end
+})
+
+-- No Clip
+local noclipAtivo = false
+local noclipConexao
+local partesOriginais = {}
+
+Funcoes:AddToggle({
+    Title = "No Clip",
+    Default = false,
+    Callback = function(estado)
+        noclipAtivo = estado
+        local player = game.Players.LocalPlayer
+
+        if noclipAtivo then
+            partesOriginais = {}
+            noclipConexao = game:GetService("RunService").Stepped:Connect(function()
+                if player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
+                    for _, parte in pairs(player.Character:GetDescendants()) do
+                        if parte:IsA("BasePart") and parte.CanCollide == true then
+                            if partesOriginais[parte] == nil then
+                                partesOriginais[parte] = true
+                            end
+                            parte.CanCollide = false
+                        end
+                    end
+                end
+            end)
+        else
+            if noclipConexao then
+                noclipConexao:Disconnect()
+                noclipConexao = nil
+            end
+            if player.Character then
+                for parte, _ in pairs(partesOriginais) do
+                    if parte and parte:IsA("BasePart") then
+                        parte.CanCollide = true
+                    end
+                end
+            end
+            partesOriginais = {}
+
+            local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
+            end
+        end
+    end
+})
+
+-- Aba Discord
 local Tab1 = Window:MakeTab({
     Title = "Discord",
     Icon = "rbxassetid://4483345998"
