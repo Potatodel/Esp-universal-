@@ -22,9 +22,9 @@ local Tab1 = Window:MakeTab({
 
 Tab1:AddDiscordInvite({
     Name = "Zeta hub",
-    Description = "em breve",
+    Description = "Discord link",
     Logo = "rbxassetid://119216271153645",
-    Invite = "em breve"
+    Invite = "https://discord.gg/crgNXjhm3t"
 })
 
 -- Aba de Funções (segunda aba)
