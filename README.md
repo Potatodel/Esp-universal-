@@ -10,7 +10,7 @@ local Window = redzlib:MakeWindow({
 
 -- Ícone de minimizar
 Window:AddMinimizeButton({
-    Button = { Image = "rbxassetid://119216271153645", BackgroundTransparency = 0 },
+    Button = { Image = "rbxassetid://120342556899878", BackgroundTransparency = 0 },
     Corner = { CornerRadius = UDim.new(0, 6) },
 })
 
@@ -23,7 +23,7 @@ local Tab1 = Window:MakeTab({
 Tab1:AddDiscordInvite({
     Name = "Zeta hub",
     Description = "Discord link",
-    Logo = "rbxassetid://119216271153645",
+    Logo = "rbxassetid://120342556899878",
     Invite = "https://discord.gg/crgNXjhm3t"
 })
 
@@ -162,29 +162,7 @@ Funcoes:AddButton({
     Title = "FPS Boost",
     Callback = function()
         sethiddenproperty(game:GetService("Players").LocalPlayer, "", true)
-        _G.Ignore = {}
-        _G.Settings = {
-            Players = {["Ignore Me"] = true, ["Ignore Others"] = true, ["Ignore Tools"] = true},
-            Meshes = {NoMesh = false, NoTexture = false, Destroy = false},
-            Images = {Invisible = true, Destroy = false},
-            Explosions = {Smaller = true, Invisible = false, Destroy = false},
-            Particles = {Invisible = true, Destroy = false},
-            TextLabels = {LowerQuality = true, Invisible = false, Destroy = false},
-            MeshParts = {LowerQuality = true, Invisible = false, NoTexture = false, NoMesh = false, Destroy = false},
-            Other = {
-                ["FPS Cap"] = 8000,
-                ["No Camera Effects"] = true,
-                ["No Clothes"] = true,
-                ["Low Water Graphics"] = true,
-                ["No Shadows"] = true,
-                ["Low Rendering"] = true,
-                ["Low Quality Parts"] = true,
-                ["Low Quality Models"] = true,
-                ["Reset Materials"] = true
-            }
-        }
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/FPSBooster.lua"))()
-    end
+            end
 })
 
 -- Auto Click
@@ -206,7 +184,58 @@ Funcoes:AddToggle({
         else
             if clickConnection then
                 clickConnection:Disconnect()
-                clickConnection = nil
+                clicUniversal script fps booster
+
+_G.Ignore = {}
+_G.Settings = {
+ Players = {
+  ["Ignore Me"] = true,
+  ["Ignore Others"] = true,
+  ["Ignore Tools"] = true
+ },
+ Meshes = {
+  NoMesh = false,
+  NoTexture = false,
+  Destroy = false
+ },
+ Images = {
+  Invisible = true,
+  Destroy = false
+ },
+ Explosions = {
+  Smaller = true,
+  Invisible = false, -- Not for PVP games
+  Destroy = false -- Not for PVP games
+ },
+ Particles = {
+  Invisible = true,
+  Destroy = false
+ },
+ TextLabels = {
+  LowerQuality = true,
+  Invisible = false,
+  Destroy = false
+ },
+ MeshParts = {
+  LowerQuality = true,
+  Invisible = false,
+  NoTexture = false,
+  NoMesh = false,
+  Destroy = false
+ },
+ Other = {
+  ["FPS Cap"] = 360, -- true to uncap
+  ["No Camera Effects"] = true,
+  ["No Clothes"] = true,
+  ["Low Water Graphics"] = true,
+  ["No Shadows"] = true,
+  ["Low Rendering"] = true,
+  ["Low Quality Parts"] = true,
+  ["Low Quality Models"] = true,
+  ["Reset Materials"] = true,
+ }
+}
+loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/FPSBooster.lua"))()kConnection = nil
             end
         end
     end
@@ -217,7 +246,6 @@ Funcoes:AddButton({
     Title = "Fly",
     Callback = function()
         loadstring("\108\111\97\100\115\116\114\105\110\103\40\103\97\109\101\58\72\116\116\112\71\101\116\40\40\39\104\116\116\112\115\58\47\47\103\105\115\116\46\103\105\116\104\117\98\117\115\101\114\99\111\110\116\101\110\116\46\99\111\109\47\109\101\111\122\111\110\101\89\84\47\98\102\48\51\55\100\102\102\57\102\48\97\55\48\48\49\55\51\48\52\100\100\100\54\55\102\100\99\100\51\55\48\47\114\97\119\47\101\49\52\101\55\52\102\52\50\53\98\48\54\48\100\102\53\50\51\51\52\51\99\102\51\48\98\55\56\55\48\55\52\101\98\51\99\53\100\50\47\97\114\99\101\117\115\37\50\53\50\48\120\37\50\53\50\48\102\108\121\37\50\53\50\48\50\37\50\53\50\48\111\98\102\108\117\99\97\116\111\114\39\41\44\116\114\117\101\41\41\40\41\10\10")()
-
     end
 })
 
@@ -264,6 +292,78 @@ Funcoes:AddToggle({
             local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
             if humanoid then
                 humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
+            end
+        end
+    end
+})
+
+-- Aimbot
+local aimbotAtivado = false
+local runService = game:GetService("RunService")
+local userInputService = game:GetService("UserInputService")
+local camera = workspace.CurrentCamera
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local function getClosestPlayer()
+    local closestPlayer = nil
+    local shortestDistance = math.huge
+    local viewportPoint = userInputService:GetMouseLocation()
+    local ray = camera:ViewportPointToRay(viewportPoint.X, viewportPoint.Y)
+    local raycastParams = RaycastParams.new()
+    raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
+    raycastParams.FilterDescendantsInstances = {LocalPlayer.Character}
+    raycastParams.IgnoreWater = true
+
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local targetPosition = player.Character.HumanoidRootPart.Position
+            local result = workspace:Raycast(ray.Origin, (targetPosition - ray.Origin).Unit * 500, raycastParams) -- Aumentei o alcance do raio
+
+            if result and result.Instance:IsDescendantOf(player.Character) then
+                local distance = (result.Position - ray.Origin).Magnitude
+                if distance < shortestDistance then
+                    closestPlayer = player
+                    shortestDistance = distance
+                end
+            end
+        end
+    end
+    return closestPlayer
+end
+
+local function aimAtPlayer(player)
+    if player and player.Character and player.Character:FindFirstChild("Head") then
+        local target = player.Character.Head
+        local cameraCFrame = camera.CFrame
+        local targetPosition = target.Position
+
+        local direction = (targetPosition - cameraCFrame.Position).Unit
+        local lookAtCFrame = CFrame.lookAt(cameraCFrame.Position, targetPosition)
+        camera.CFrame = lookAtCFrame
+    end
+end
+
+local aimbotConnection
+
+Funcoes:AddToggle({
+    Title = "Aimbot",
+    Default = false,
+    Callback = function(estado)
+        aimbotAtivado = estado
+        if aimbotAtivado then
+            aimbotConnection = runService.RenderStepped:Connect(function()
+                if userInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) then
+                    local targetPlayer = getClosestPlayer()
+                    if targetPlayer then
+                        aimAtPlayer(targetPlayer)
+                    end
+                end
+            end)
+        else
+            if aimbotConnection then
+                aimbotConnection:Disconnect()
+                aimbotConnection = nil
             end
         end
     end
